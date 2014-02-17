@@ -12,17 +12,13 @@ public class GameDriver {
 	public static String setUpPlayer(String input)
 	{
 		String name = JOptionPane.showInputDialog("What is " +input+ " gamer name?");
-		
-		return name;
-	}
-	/**
-	 * It calls the name of the player who's turn it is
-	 * @param player what player are we talking about?
-	 * @return the player's name in the game
-	 */
-	public static String whosMove(Player player)
-	{
-		String name = player.getPlayerName();
+        if (name == null || name.equals("")) {
+            if (input.equals("your")) {
+                name = "Player 1";
+            } else {
+                name = "Player 2";
+            }
+        }
 		
 		return name;
 	}
@@ -55,34 +51,38 @@ public class GameDriver {
 				Player player;
 			
 				if (index%2 != 0) {
-					turn = whosMove(player1);
+					turn = player1.getPlayerName();
 					player = player1;
 				}
 				else {
-					turn = whosMove(player2);
+					turn = player2.getPlayerName();
 					player = player2;
 				}
 				index++;
 			
 				// Now we will take turns
 				String place = JOptionPane.showInputDialog(gameBoard+ "\n" +anything+ "\nWhere would you like to make your move " +turn+ "?");
-				anything = gameBoard.playerMove(player, place);
-			
-				if (anything.compareTo("Invalid place. Choose again.") == 0) 	{
-					index--;
-				}
-				
-				win = gameBoard.checkForWinner();  // Check for win
-				
-				if (win == true) {
-					winner = player;
-					player.playerWin();
-				} else if (index > 9) { // Check for cat game
-					winner = cat;
-					cat.playerWin();
-					win = true;
-				}
-				
+                if (place != null) {
+                    anything = gameBoard.playerMove(player, place);
+
+                    if (anything.compareTo("Invalid place. Choose again.") == 0) 	{
+                        index--;
+                    }
+
+                    win = gameBoard.checkForWinner();  // Check for win
+
+                    if (win == true) {
+                        winner = player;
+                        player.playerWin();
+                    } else if (index > 9) { // Check for cat game
+                        winner = cat;
+                        cat.playerWin();
+                        win = true;
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Early termination.\n\nThanks for playing! <3 Abi");
+                    System.exit(0);
+                }
 			}
 		
 			JOptionPane.showMessageDialog(null, "The game is won by " +winner.getPlayerName()+ "!");
