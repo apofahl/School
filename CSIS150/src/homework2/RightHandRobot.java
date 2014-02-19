@@ -3,10 +3,18 @@ package homework2;
 public class RightHandRobot extends FacingRobot {
 
 
+    /**
+     * Builds a robot in a specific maze and started facing south
+     * @param maze maze the bot is in
+     */
 	public RightHandRobot(Maze maze) {
 		super(maze);
 	}
 
+    /**
+     * Chooses the direction the robot will moe next
+     * @return direction the bot will move
+     */
 	@Override
 	public int chooseMoveDirection() {
 		int move;
@@ -63,6 +71,11 @@ public class RightHandRobot extends FacingRobot {
 		return move;
 	}
 
+    /**
+     * Makes the move for the robot
+     * @param direction direction the robot will move
+     * @return whether or not the move was made
+     */
 	@Override
 	public boolean move(int direction) {
 		boolean done = false;

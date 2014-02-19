@@ -11,6 +11,10 @@ public class RandomRobot extends Robot {
         super(maze);
     }
 
+    /**
+     * Chooses the direction the robot will moe next
+     * @return direction the bot will move
+     */
     @Override
     public int chooseMoveDirection() {
         Random random = new Random();
@@ -18,6 +22,11 @@ public class RandomRobot extends Robot {
         return choice;
     }
 
+    /**
+     * Makes the move for the robot
+     * @param direction direction the robot will move
+     * @return whether or not the move was made
+     */
     @Override
     public boolean move(int direction) {
         boolean done = false;
