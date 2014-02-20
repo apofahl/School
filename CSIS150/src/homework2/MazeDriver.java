@@ -31,7 +31,7 @@ public class MazeDriver {
 		File inputFile = getFile();  //sample: testmaze.txt
 		Maze maze = new Maze(inputFile);
 		System.out.println(maze);
-		Robot bot = new RightHandRobot(maze);//this ties the robot to the maze it is in
+		Robot bot = new LeftHandRobot(maze);//this ties the robot to the maze it is in
 
 		for (int k = 0; k < 1000000 && !bot.solved(); k++) 
 		//this limits the robot's moves, in case it takes too long to find the exit.

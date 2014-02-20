@@ -45,8 +45,8 @@ public class Board {
 	 */
 	public boolean checkForWinner()
 	{
-		int xCount = 0;
-		int oCount = 0;
+		int xCount;
+		int oCount;
 		boolean win = false;
 		
 		// Check vertical
@@ -64,8 +64,6 @@ public class Board {
 				win = true;
 			}
 		}
-		
-		xCount = oCount = 0;
 		
 		// Check horizontal
 		for (int col = 0; col < 3; col++) {
