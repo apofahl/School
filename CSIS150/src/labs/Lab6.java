@@ -15,21 +15,17 @@ public class Lab6 {
      * @return number to be used for array
      * @throws java.io.IOException
      */
-    public static int HowMany(DataInputStream input) throws IOException
-    {
+    public static int howMany(DataInputStream input) throws IOException {
         int howMany = 0;
         double number;
         boolean end = false;
 
-        while (!end)
-        {
-            try
-            {
+        while (!end) {
+            try {
                 number = input.readDouble();
                 howMany ++;
             }
-            catch (EOFException e)
-            {
+            catch (EOFException e) {
                 end = true;
             }
         }
@@ -43,13 +39,11 @@ public class Lab6 {
      * @return number to be used for array
      * @throws IOException
      */
-    public static int HowMany2(FileReader input) throws IOException
-    {
+    public static int howMany2(FileReader input) throws IOException {
         int howMany = 0;
         double number = input.read();
 
-        while (number != -1)
-        {
+        while (number != -1) {
             howMany ++;
             number = input.read();
         }
@@ -64,18 +58,14 @@ public class Lab6 {
      * @param average the average of the number in the file
      * @return output statement
      */
-    public static String Output(double [ ] file, int howMany, double average)
-    {
+    public static String getOutput(double [ ] file, int howMany, double average) {
         String output = "This file contains the numbers";
         DecimalFormat DF = new DecimalFormat("0.00");
-        for (int i = 0; i < howMany; i++)
-        {
-            if (i < (howMany - 1))
-            {
+        for (int i = 0; i < howMany; i++) {
+            if (i < (howMany - 1)) {
                 output += " " +file [i]+ ",";
             }
-            else
-            {
+            else {
                 output += " " +file [i]+ ".";
             }
         }
@@ -91,18 +81,15 @@ public class Lab6 {
      * @param average the average of the number in the file
      * @return output statement
      */
-    public static String Output2(double [ ] file, int howMany, double average)
+    public static String getOutput2(double [ ] file, int howMany, double average)
     {
         String output = "This file contains the numbers";
         DecimalFormat DF = new DecimalFormat("0.00");
-        for (int i = 0; i < howMany; i++)
-        {
-            if (i < (howMany - 1))
-            {
+        for (int i = 0; i < howMany; i++) {
+            if (i < (howMany - 1)) {
                 output += " " +file [i]+ ",";
             }
-            else
-            {
+            else {
                 output += " " +file [i]+ ".";
             }
         }
@@ -116,15 +103,15 @@ public class Lab6 {
      */
     public static void main(String[] args) {
         // Set up binary file reader
-        FileInputStream fstream = null;
-        int howMany = 0;
+        FileInputStream fstream;
+        int howMany;
         double average = 0;
         try {
             fstream = new FileInputStream("doubles.dat");
             DataInputStream input = new DataInputStream(fstream);
 
             // Count how many places
-            howMany = HowMany(input);
+            howMany = howMany(input);
             input.close();
 
             // Set up array
@@ -133,20 +120,18 @@ public class Lab6 {
             double [ ] dBinary = new double [howMany];
 
             // Load array
-            for (int i = 0; i < howMany; i++)
-            {
+            for (int i = 0; i < howMany; i++) {
                 dBinary [i] = input.readDouble();
             }
 
             // Calculate average
-            for (int i = 0; i < howMany; i++)
-            {
+            for (int i = 0; i < howMany; i++) {
                 average += dBinary [i];
             }
             average = average / howMany;
 
             // Output information
-            String output = Output(dBinary, howMany, average);
+            String output = getOutput(dBinary, howMany, average);
             JOptionPane.showMessageDialog(null, output);
             input.close();
 
@@ -155,7 +140,7 @@ public class Lab6 {
             FileReader inputFile = new FileReader("doubles.csv");
 
             // Count how many places
-            howMany = HowMany2(inputFile);
+            howMany = howMany2(inputFile);
             inputFile.close();
 
             // Set up array
@@ -164,21 +149,19 @@ public class Lab6 {
 
             // Load array
             int raw = 0;
-            for (int i = 0; i < howMany; i++)
-            {
+            for (int i = 0; i < howMany; i++) {
                 raw = inputFile.read();
                 dCSV [i] = (char) raw; // loads all into same array.
             }
 
             // Calculate average
-            for (int i = 0; i < howMany; i++)
-            {
+            for (int i = 0; i < howMany; i++) {
                 average += dCSV [i];
             }
             average = average / howMany;
 
             // Output information
-            output = Output2(dCSV, howMany, average);
+            output = getOutput2(dCSV, howMany, average);
             JOptionPane.showMessageDialog(null, output);
             inputFile.close();
 

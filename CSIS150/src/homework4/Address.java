@@ -1,7 +1,6 @@
-package labs;
+package homework4;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
 
 public class Address implements Serializable{
 
