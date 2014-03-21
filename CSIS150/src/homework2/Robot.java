@@ -2,6 +2,9 @@ package homework2;
 
 import javax.swing.*;
 
+/**
+ * Created by apofahl
+ */
 public abstract class Robot {
 	
 	protected int currentCol;
@@ -22,7 +25,7 @@ public abstract class Robot {
 	}
 
     /**
-     * Chooses the direction the robot will moe next
+     * Chooses the direction the robot will move next
      * @return direction the bot will move
      */
 	public abstract int chooseMoveDirection();

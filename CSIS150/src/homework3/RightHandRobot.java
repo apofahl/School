@@ -1,5 +1,8 @@
 package homework3;
 
+/**
+ * Created by apofahl
+ */
 public class RightHandRobot extends FacingRobot {
 
 

@@ -2,6 +2,9 @@ package homework3;
 
 import javax.swing.*;
 
+/**
+ * Created by apofahl
+ */
 public abstract class Robot {
 	
 	protected int currentCol;

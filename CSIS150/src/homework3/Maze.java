@@ -7,6 +7,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Created by apofahl
+ */
 public class Maze {
 	
 	private static final int MARK_LIMIT = 3200;
