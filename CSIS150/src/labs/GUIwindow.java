@@ -21,7 +21,7 @@ public class GUIwindow extends JFrame {
 
     /**
      * Builds a window where you can input information to be entered into
-     * 		Address object.
+     * 		an Address object.
      */
     public GUIwindow()
     {
@@ -38,6 +38,14 @@ public class GUIwindow extends JFrame {
         stateButton = new JTextField(" Enter state ");
         zipButton = new JTextField(" Enter zip code ");
         phoneButton = new JTextField(" Phone number: XXXXXXXXXX ");
+
+        TextClick mouse = new TextClick();
+        nameButton.addMouseListener(mouse);
+        streetButton.addMouseListener(mouse);
+        cityButton.addMouseListener(mouse);
+        stateButton.addMouseListener(mouse);
+        zipButton.addMouseListener(mouse);
+        phoneButton.addMouseListener(mouse);
 
         // Set up message label
         JLabel messageLabel = new JLabel("Enter address information: ");
@@ -73,14 +81,12 @@ public class GUIwindow extends JFrame {
      * Save Address object in file chosen by the user.
      * @param addy Address object to be saved
      */
-    public static void SaveStuff(Address addy)
-    {
+    public static void SaveStuff(Address addy) {
         // Where to save information?
         JFileChooser chooser = new JFileChooser();
         int status = chooser.showOpenDialog(null);
 
-        if (status != JFileChooser.APPROVE_OPTION)
-        {
+        if (status != JFileChooser.APPROVE_OPTION) {
             System.out.println("No File Chosen");
             System.exit(0);
         }
@@ -109,7 +115,7 @@ public class GUIwindow extends JFrame {
     /**
      * Creates action for when "Save!" button is pushed. It builds an Address
      * 		and then saves the object to a file chosen by the user.
-     * @author CSIS110-29
+     * @author apofahl
      */
     public class ButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
@@ -119,8 +125,7 @@ public class GUIwindow extends JFrame {
             String newCity = cityButton.getText();
             String newState = stateButton.getText();
             String newZip = zipButton.getText();
-            String input = phoneButton.getText();
-            double newPhone = Double.parseDouble(input);
+            String newPhone = phoneButton.getText();
 
             // Build Address
             Address addy = new Address(newName, newStreet, newCity, newState, newZip, newPhone);
@@ -135,7 +140,38 @@ public class GUIwindow extends JFrame {
             // Close program
             System.exit(0);
         }
+    }
 
+    public class TextClick implements MouseListener {
 
+        @Override
+        public void mouseClicked(MouseEvent mouse) {
+            JTextField tField = (JTextField) mouse.getSource();
+            tField.setText("");
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent arg0) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent arg0) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent arg0) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent arg0) {
+            // TODO Auto-generated method stub
+
+        }
     }
 }

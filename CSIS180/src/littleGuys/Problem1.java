@@ -1,4 +1,4 @@
-package csis180;
+package littleGuys;
 
 public class Problem1 {
 

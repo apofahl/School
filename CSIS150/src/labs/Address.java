@@ -2,6 +2,7 @@ package labs;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.util.StringTokenizer;
 
 public class Address implements Serializable{
 
@@ -33,13 +34,13 @@ public class Address implements Serializable{
      * @param zip for zip code
      * @param phone for phone number
      */
-    public Address(String name, String street, String city, String state, String zip, double phone) {
+    public Address(String name, String street, String city, String state, String zip, String phone) {
         this.name = name;
         this.street = street;
         this.city = city;
         this.state = state;  //validate state exists?
         this.zip = zip;
-        this.phone = phone; // check to make sure it has enough numbers?
+        newPhone(phone);
     }
 
     /**
@@ -68,37 +69,48 @@ public class Address implements Serializable{
      * changes the phone number of an address object
      * @param phone for the new number
      */
-    public void newPhone(double phone) {
-        this.phone = phone;  // check length?
+    public void newPhone(String phone) {
+        String phone1 = phone.replace("(", "");
+        phone1 = phone1.replace(")", "");
+        phone1 = phone1.replace("-", "");
+
+        if (phone1.length() == 10) {
+            try {
+                this.phone = Double.parseDouble(phone1);
+            } catch (NumberFormatException e) {
+                System.out.println("***" +name+ " has an incorrect phone number format: " +phone);
+            }
+        } else {
+            System.out.println("***" +name+ " has an incorrect phone number format: " +phone);
+        }
     }
 
     /**
      * Reports information for an address object
      */
     public String toString() {
-        int [ ] phoneArray = new int [10];
-        double j = 1000000000;
-        for (int i = 0; i < 10; i++) {
-            phoneArray [i] = (int) (phone / j);
-            phone = phone % j;
-            j = j/ 10;
-        }
-
         String output = "NAME: " +name+ "\nSTREET: " +street+ "\nCITY: " +city;
-        output += "\nSTATE: " +state+ "\nZIP CODE: " +zip+ "\nPHONE NUMBER: (";
+        output += "\nSTATE: " +state+ "\nZIP CODE: " +zip+ "\nPHONE NUMBER: ";
 
-        for (int i = 0; i < 10; i++) {
-            output += phoneArray [i];
-            if (i == 2) {
-                output += ")";
+        if (phone > 0) {
+            // format phone number
+            DecimalFormat formatter = new DecimalFormat("0");
+            String number = "" +formatter.format(phone);
+            output += "(";
+            for (int dex = 0; dex < 10; dex++) {
+                output += number.charAt(dex);
+                if (dex == 2) {
+                    output += ")";
+                }
+                else if (dex == 5) {
+                    output += "-";
+                }
             }
-            else if (i == 5) {
-                output += "-";
-            }
+        } else {
+            output += "---";
         }
 
         return output;
     }
 
 }
-

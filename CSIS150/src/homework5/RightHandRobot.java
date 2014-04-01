@@ -106,7 +106,7 @@ public class RightHandRobot extends FacingRobot {
             done = true;
         }
 
-        maze.setCell(currentRow, currentCol, this.direction.getCard());
+        maze.setCell(currentRow, currentCol, 'R');
 		return done;
 	}
 

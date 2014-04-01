@@ -13,8 +13,10 @@ import java.util.Scanner;
 public class Maze {
 	
 	private static final int MARK_LIMIT = 3200;
-	private int [ ] start;
-	private int [ ] end;
+	private int startRow;
+    private int startCol;
+	private int endRow;
+    private int endCol;
 	private char [ ] [ ] maze;
 
     /**
@@ -22,8 +24,6 @@ public class Maze {
      * @param inFile File to make maze from
      */
 	public Maze(File inFile){
-        start = new int [2];
-        end = new int [2];
 	       if(inFile.exists()) {    
 	           try {
 	        	   // begin building maze
@@ -35,15 +35,13 @@ public class Maze {
 	               // fill start
 	               fileLine = inReader.readLine();
                    topScan = new Scanner(fileLine);
-	               for (int dex = 0; dex < 2; dex++) {
-	            	   start [dex] = topScan.nextInt();
-	               }
+	               startRow = topScan.nextInt();
+                   startCol = topScan.nextInt();
 	               // fill end
 	               fileLine = inReader.readLine();
                    topScan = new Scanner(fileLine);
-	               for (int dex = 0; dex < 2; dex++) {
-	            	   end [dex] = topScan.nextInt();
-	               }
+	               endRow = topScan.nextInt();
+                   endCol = topScan.nextInt();
 	               // fill maze
 	               for(int rows = 0;rows < maze.length; rows++) {
 	                    fileLine = inReader.readLine();
@@ -67,8 +65,10 @@ public class Maze {
      * @param copy maze to be copied
      */
 	public Maze(Maze copy) {
-		start = copy.getStart();
-		end = copy.getExit();
+        startRow = copy.getStartRow();
+        startCol = copy.getStartCol();
+        endRow = copy.getExitRow();
+        endCol = copy.getExitCol();
         maze = new char [copy.getRows()] [copy.getCols()];
         for(int row = 0;row < copy.getRows(); row++) {
             for(int col = 0; col < copy.getCols(); col++) {
@@ -94,19 +94,11 @@ public class Maze {
 	}
 
     /**
-     * Gives array of start position
-     * @return start position
-     */
-	public int [ ] getStart() {
-		return start;
-	}
-
-    /**
      * Gives the row the maze starts on
      * @return start row
      */
 	public int getStartRow() {
-		return start [0];
+		return startRow;
 	}
 
     /**
@@ -114,15 +106,7 @@ public class Maze {
      * @return start column
      */
 	public int getStartCol() {
-		return start [1];
-	}
-
-    /**
-     * Gives array of end position
-     * @return end position
-     */
-	public int [ ] getExit() {
-		return end;
+		return startCol;
 	}
 
     /**
@@ -130,7 +114,7 @@ public class Maze {
      * @return end row
      */
 	public int getExitRow() {
-		return end [0];
+		return endRow;
 	}
 
     /**
@@ -138,7 +122,7 @@ public class Maze {
      * @return end column
      */
 	public int getExitCol() {
-		return end [1];
+		return endCol;
 	}
 
     /**

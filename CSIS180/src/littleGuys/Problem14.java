@@ -1,7 +1,7 @@
 package littleGuys;
 
 /**
- * Created by apofahl on 3/21/14.
+ * Created by apofahl
  */
 public class Problem14 {
 
@@ -18,4 +18,42 @@ public class Problem14 {
 //    Which starting number, under one million, produces the longest chain?
 //
 //    NOTE: Once the chain starts the terms are allowed to go above one million.
+
+    public static int tryNext(int current) {
+        int count = 0;
+
+        while (current >= 1) {
+//			System.out.print(current + " ");  // for debugging
+            if (current == 1) {
+                count ++;
+                break;
+            }
+            else if (current%2 == 0) {
+                current = current / 2;
+            } else {
+                current = (current * 3) + 1;
+            }
+            count ++;
+        }
+
+//		System.out.println("\nThe chain is " +count+ " terms long."); // for debugging
+        return count;
+    }
+
+    public static void main(String args[]) {
+        int current = 13;
+        int top = 0;
+        int answer = 13;
+
+        while (current < 1000000) {
+            if (tryNext(current) > top) {
+                top = tryNext(current);
+                answer = current;
+            }
+
+            current++;
+        }
+
+        System.out.println("\nThe answer is " +answer+ " with " +top+ " terms.");
+    }
 }
