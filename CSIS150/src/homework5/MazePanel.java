@@ -29,25 +29,43 @@ public class MazePanel extends JPanel{
 
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) (g);
-//        BufferedImage botPic = null;
-//        try {
-//            botPic = ImageIO.read(new File("robot.png"));
-//        } catch (IOException e) {
-//            System.out.println("Image file not found.");
-//        }
+        setBackground(Color.WHITE);
+        BufferedImage botPic = null;
+        BufferedImage ending = null;
+        try {
+            botPic = ImageIO.read(new File("robot.png"));
+            ending = ImageIO.read(new File("Xspot.png"));
+        } catch (IOException e) {
+            System.out.println("Image file not found.");
+        }
 
         for (int row = 0; row < maze.getRows(); row++) {
             for (int col = 0; col < maze.getCols(); col++) {
-                switch (maze.getCell(row, col)) {
+                switch (robot.maze.getCell(row, col)) {
                     case ('S'):
-//                        g.drawImage(botPic, HEIGHT, WIDTH, null);
-                        g2d.setColor(Color.RED);
-                        g2d.fillOval(col * WIDTH +SIDE, row * HEIGHT +TOP, HEIGHT, WIDTH);
+                        g.drawImage(botPic, col * WIDTH +SIDE, row * HEIGHT +TOP, null);
+//                        g2d.setColor(Color.RED);
+//                        g2d.fillOval(col * WIDTH +SIDE, row * HEIGHT +TOP, HEIGHT, WIDTH);
+                        break;
+                    case ('N'):
+                        g.drawImage(botPic, col * WIDTH +SIDE, row * HEIGHT +TOP, null);
+//                        g2d.setColor(Color.RED);
+//                        g2d.fillOval(col * WIDTH +SIDE, row * HEIGHT +TOP, HEIGHT, WIDTH);
+                        break;
+                    case ('W'):
+                        g.drawImage(botPic, col * WIDTH +SIDE, row * HEIGHT +TOP, null);
+//                        g2d.setColor(Color.RED);
+//                        g2d.fillOval(col * WIDTH +SIDE, row * HEIGHT +TOP, HEIGHT, WIDTH);
+                        break;
+                    case ('E'):
+                        g.drawImage(botPic, col * WIDTH +SIDE, row * HEIGHT +TOP, null);
+//                        g2d.setColor(Color.RED);
+//                        g2d.fillOval(col * WIDTH +SIDE, row * HEIGHT +TOP, HEIGHT, WIDTH);
                         break;
                     case ('R'):
-//                        g.drawImage(botPic, HEIGHT, WIDTH, null);
-                        g2d.setColor(Color.CYAN);
-                        g2d.fillOval(col * WIDTH +SIDE, row * HEIGHT +TOP, HEIGHT, WIDTH);
+                        g.drawImage(botPic, col * WIDTH +SIDE, row * HEIGHT +TOP, null);
+//                        g2d.setColor(Color.CYAN);
+//                        g2d.fillOval(col * WIDTH +SIDE, row * HEIGHT +TOP, HEIGHT, WIDTH);
                         break;
                     case ('*'):
                         g2d.setColor(Color.MAGENTA);
@@ -58,8 +76,10 @@ public class MazePanel extends JPanel{
                         g2d.fillRect(col * WIDTH +SIDE, row * HEIGHT +TOP, HEIGHT, WIDTH);
                         break;
                     case ('X'):
-                        g2d.setColor(Color.WHITE);
-                        g2d.fillRect(col * WIDTH +SIDE, row * HEIGHT +TOP, HEIGHT, WIDTH);
+                        g.drawImage(ending, col * WIDTH +SIDE, row * HEIGHT +TOP, null);
+
+//                        g2d.setColor(Color.WHITE);
+//                        g2d.fillRect(col * WIDTH +SIDE, row * HEIGHT +TOP, HEIGHT, WIDTH);
                         break;
                     default:
 

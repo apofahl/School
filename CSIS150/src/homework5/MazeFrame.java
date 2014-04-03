@@ -1,16 +1,10 @@
 package homework5;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.ImageObserver;
+import java.awt.event.*;
 import java.io.File;
-import java.text.AttributedCharacterIterator;
 
 import javax.swing.*;
-import javax.swing.text.Utilities;
 
 /**
  * Created by apofahl
@@ -27,6 +21,8 @@ public class MazeFrame extends JFrame{
     JMenuItem rightBot;
     JMenuItem leftBot;
     JMenuItem lookBot;
+    JMenuItem randBot;
+    JMenuItem wallHopBot;
 
     public void setUp() {
         panel = new MazePanel();
@@ -64,6 +60,7 @@ public class MazeFrame extends JFrame{
         // Add Listeners
         ShowSolution hint = new ShowSolution();
         solve.addActionListener(hint);
+        solve.setMnemonic('h');
         CloseProgram close = new CloseProgram();
         exit.addActionListener(close);
 
@@ -79,7 +76,8 @@ public class MazeFrame extends JFrame{
     public JMenu buildMazeMenu() {
         // Maze menu set up
         JMenu mazeMenu = new JMenu("Maze");
-        JMenuItem newMaze = new JMenuItem("New Maze");
+        mazeMenu.setMnemonic(KeyEvent.VK_CONTROL);
+        JMenuItem newMaze = new JMenuItem("New Maze", KeyEvent.VK_N);
 
         // Add Listeners
         NewMazeOpen mazeOpen = new NewMazeOpen();
@@ -97,17 +95,23 @@ public class MazeFrame extends JFrame{
         rightBot = new JMenuItem("Righthand Robot");
         leftBot = new JMenuItem("Lefthand Robot");
         lookBot = new JMenuItem("Look Ahead Robot");
+        randBot = new JMenuItem("Random Robot");
+        wallHopBot = new JMenuItem("Wall Hop Robot");
 
         // Add Listeners
         ChooseBot choose = new ChooseBot();
         rightBot.addActionListener(choose);
         leftBot.addActionListener(choose);
         lookBot.addActionListener(choose);
+        randBot.addActionListener(choose);
+        wallHopBot.addActionListener(choose);
 
         // Put together
         robotMenu.add(rightBot);
         robotMenu.add(leftBot);
         robotMenu.add(lookBot);
+        robotMenu.add(randBot);
+        robotMenu.add(wallHopBot);
 
         return robotMenu;
     }
@@ -147,8 +151,14 @@ public class MazeFrame extends JFrame{
             } else if (event.getSource() == leftBot) {
                 robot = new LeftHandRobot(maze);
                 panel.setRobot(robot);
-            } else {
+            } else if (event.getSource() == lookBot) {
                 robot = new LookAheadRobot(maze);
+                panel.setRobot(robot);
+            } else if (event.getSource() == randBot) {
+                robot = new RandomRobot(maze);
+                panel.setRobot(robot);
+            } else {
+                robot = new WallHopRobot(maze);
                 panel.setRobot(robot);
             }
             solve.setVisible(true);
@@ -172,21 +182,21 @@ public class MazeFrame extends JFrame{
 
         @Override
         public void actionPerformed(ActionEvent event) {
-            for (int count = 0; count < 1000000 && !robot.solved(); count++) {
-                int direction = robot.chooseMoveDirection();
-                if (direction >=0)  { //invalid direction is -1
-                    robot.move(direction);
-                    panel.setVisible(false);
-                    panel.paintComponent(getGraphics()); // need to find a way to show new maze
-                    panel.setVisible(true);
+            running = true;
+            try {
+                for (int count = 0; count < 1000000 && !robot.solved(); count++) {
+                    int direction = robot.chooseMoveDirection();
+                    if (direction >=0)  { //invalid direction is -1
+                        robot.move(direction);
+                        panel.setVisible(false);
+                        panel.paintComponent(getGraphics()); // need to find a way to show new maze
+                        panel.setVisible(true);
+                    }
+                    Thread.sleep(1500);
                 }
-//                try {
-//                    wait(300);
-//                } catch (InterruptedException e) {
-//                    System.out.println("Something went wrong.");
-//                }
-            }
+            } catch (Exception e) {
 
+            }
         }
     }
 
@@ -196,6 +206,8 @@ public class MazeFrame extends JFrame{
         public void mouseClicked(MouseEvent e) {
             panel.getToolTipLocation(e);
             System.out.println(e.getPoint());
+
+        //    https://www.youtube.com/watch?v=p9Y-NBg8eto
         }
 
         @Override
