@@ -1,5 +1,7 @@
 package homework5;
 
+import com.sun.swing.internal.plaf.metal.resources.metal_sv;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -11,11 +13,14 @@ import javax.swing.*;
  */
 public class MazeFrame extends JFrame{
 
+    // Robot Stuff
     private MazePanel panel;
     private Maze maze;
     private Robot robot;
     private boolean running = false;
     private File file;
+
+    // Menu Stuff
     JMenuItem solve;
     JMenu robotMenu;
     JMenuItem rightBot;
@@ -24,15 +29,35 @@ public class MazeFrame extends JFrame{
     JMenuItem randBot;
     JMenuItem wallHopBot;
 
+    // UI Stuff
+    private JPanel messPanel;
+    private JLabel message;
+
+
     public void setUp() {
+        //Build Maze Panel
         panel = new MazePanel();
         JMenuBar menuBar = buildMenuBar();
         setJMenuBar(menuBar);
 
+        // Build Message Panel
+        messPanel = setUpMessage();
+        add(messPanel);
+
+        // Build Frame
         setName("RobotMaze");
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(450, 450);
+    }
+
+    public JPanel setUpMessage() {
+        messPanel = new JPanel();
+        message = new JLabel("Please load a maze to solve.");
+
+        messPanel.add(message);
+
+        return messPanel;
     }
 
     public JMenuBar buildMenuBar() {
@@ -132,6 +157,7 @@ public class MazeFrame extends JFrame{
                 file = chooser.getSelectedFile();
                 maze = new Maze(file);
                 panel.setMaze(maze);
+                message.setText("Choose a robot to help you.");
             } catch (Exception e) {
                 e.printStackTrace();
                 System.exit(0);
@@ -162,11 +188,14 @@ public class MazeFrame extends JFrame{
                 panel.setRobot(robot);
             }
             solve.setVisible(true);
-            panel.setSize(maze.getCols() * 10 , maze.getRows() * 10);
+            panel.setSize(maze.getCols() * 10, maze.getRows() * 10);
+            messPanel.setVisible(false);
             add(panel);
             panel.paintComponent(getGraphics());
-            panel.addMouseListener(new MouseMoves());
-            setSize(maze.getCols() * 30 +40 , maze.getRows() * 30 +150);
+            panel.requestFocus();
+            panel.setFocusTraversalKeysEnabled(false);
+            panel.addKeyListener(new KeyMoves());
+            setSize(maze.getCols() * 30 + 60, maze.getRows() * 30 + 170);
         }
     }
 
@@ -184,49 +213,72 @@ public class MazeFrame extends JFrame{
         public void actionPerformed(ActionEvent event) {
             running = true;
             try {
+                int currentX = robot.currentCol;
+                int currentY = robot.currentRow;
                 for (int count = 0; count < 1000000 && !robot.solved(); count++) {
                     int direction = robot.chooseMoveDirection();
                     if (direction >=0)  { //invalid direction is -1
                         robot.move(direction);
                         panel.setVisible(false);
-                        panel.paintComponent(getGraphics()); // need to find a way to show new maze
+                        panel.paintComponent(getGraphics()); // repaint was not doing it
                         panel.setVisible(true);
                     }
                     Thread.sleep(1500);
+                    robot.maze.setCell(robot.currentRow, robot.currentCol, ' ');
+                    robot.maze.setCell(currentY, currentX, 'R');
                 }
+                Thread.sleep(3000);
+                // put bot back after hint
             } catch (Exception e) {
 
             }
         }
     }
 
-    public class MouseMoves implements MouseListener {
+    public class KeyMoves implements KeyListener {
 
         @Override
-        public void mouseClicked(MouseEvent e) {
-            panel.getToolTipLocation(e);
-            System.out.println(e.getPoint());
+        public void keyPressed(KeyEvent e) {
+            int thisWay = e.getKeyCode(); // Something is happening! 
+            switch (thisWay) {
+                case KeyEvent.VK_UP:
+                    if (robot.currentRow > 0 && robot.maze.openCell(robot.currentRow - 1, robot.currentCol)) {
+                        robot.move(0);
+                    }
+                    break;
+                case KeyEvent.VK_DOWN:
+                    if (robot.currentRow < robot.maze.getRows() && robot.maze.openCell(robot.currentRow + 1, robot.currentCol)) {
+                        robot.move(1);
+                    }
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    if (robot.currentCol < robot.maze.getCols() && robot.maze.openCell(robot.currentRow, robot.currentCol + 1)) {
+                        robot.move(3);
 
-        //    https://www.youtube.com/watch?v=p9Y-NBg8eto
+                    }
+                    break;
+                case KeyEvent.VK_LEFT:
+                    if (robot.currentCol > 0 && robot.maze.openCell(robot.currentRow, robot.currentCol - 1)) {
+                        robot.move(2);
+                    }
+                    break;
+                default:
+
+            }
+
+            // Show move
+            panel.setVisible(false);
+            panel.paintComponent(getGraphics()); // repaint was not doing it
+            panel.setVisible(true);
         }
 
         @Override
-        public void mousePressed(MouseEvent e) {
+        public void keyReleased(KeyEvent e) {
 
         }
 
         @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
+        public void keyTyped(KeyEvent e) {
 
         }
     }

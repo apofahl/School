@@ -14,6 +14,7 @@ public class MazePanel extends JPanel{
 
     private Maze maze;
     private Robot robot;
+    private JLabel message = new JLabel("Use your arrow keys to navigate maze.");
     private final int HEIGHT = 30;
     private final int WIDTH = 30;
     private final int SIDE = 10;
@@ -28,6 +29,8 @@ public class MazePanel extends JPanel{
     }
 
     public void paintComponent(Graphics g) {
+        setFocusable(true);
+        add(message);
         Graphics2D g2d = (Graphics2D) (g);
         setBackground(Color.WHITE);
         BufferedImage botPic = null;
