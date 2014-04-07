@@ -1,6 +1,5 @@
 package homework5;
 
-
 /**
  * Created by apofahl
  */
@@ -34,10 +33,11 @@ public class LookAheadRobot extends FacingRobot {
                     move = 0;
                 }
                 break;
-            case 'N':if (currentRow > 0 && maze.openCell(currentRow - 1, currentCol)) {
-                move = 0;
+            case 'N':
+                if (currentRow > 0 && maze.openCell(currentRow - 1, currentCol)) {
+                    move = 0;
                 } else if (currentCol < maze.getCols() && maze.openCell(currentRow, currentCol + 1)) {
-                move = 3;
+                    move = 3;
                 } else if (currentCol > 0 && maze.openCell(currentRow, currentCol - 1)) {
                     move = 2;
                 } else {
@@ -108,11 +108,46 @@ public class LookAheadRobot extends FacingRobot {
         maze.setCell(currentRow, currentCol, this.direction.getCard());
 
         if (!solved() && chooseMoveDirection() == direction) {
-            System.out.println(maze);
-            System.out.println("\n");
             return move(direction);
         } else {
             return done;
         }
+    }
+
+    /**
+     * Move method for user to solve maze without recursion
+     * @param direction direction the robot will move
+     * @param keepGoing just something to make methods different
+     * @return whether or not the move was made
+     */
+    public boolean move(int direction, boolean keepGoing) {
+        boolean done = keepGoing;
+        maze.setCell(currentRow, currentCol, ' ');
+
+        if (direction == 0) {
+            currentRow = currentRow - 1;
+            this.direction = Direction.NORTH;
+            count++;
+            done = true;
+        } else if (direction == 1) {
+            currentRow = currentRow + 1;
+            this.direction = Direction.SOUTH;
+            count++;
+            done = true;
+        } else if (direction == 2) {
+            currentCol = currentCol - 1;
+            this.direction = Direction.WEST;
+            count++;
+            done = true;
+        } else if (direction == 3) {
+            currentCol = currentCol + 1;
+            count++;
+            this.direction = Direction.EAST;
+            done = true;
+        }
+
+        maze.setCell(currentRow, currentCol, this.direction.getCard());
+
+        return done;
     }
 }

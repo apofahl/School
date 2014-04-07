@@ -1,7 +1,5 @@
 package homework5;
 
-import javax.swing.*;
-
 /**
  * Created by apofahl
  */
@@ -50,10 +48,17 @@ public abstract class Robot {
 
         if (currentCol == maze.getExitCol() && currentRow == maze.getExitRow()) {
             done = true;
-            JOptionPane.showMessageDialog(null, "The maze is solved in " +count+ " moves!");
         }
 
         return done;
+    }
+
+    public void resetBot(int row, int col, int count) {
+        currentRow = row;
+        currentCol = col;
+        this.count = count;
+        maze.setCell(row, col, 'R');
+        maze.setCell(maze.getExitRow(), maze.getExitCol(), 'X');
     }
 
     /**

@@ -28,6 +28,10 @@ public class MazePanel extends JPanel{
         this.robot = robot;
     }
 
+    public void setMessage(String info) {
+        message.setText(info);
+    }
+
     public void paintComponent(Graphics g) {
         setFocusable(true);
         add(message);
