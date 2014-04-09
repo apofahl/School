@@ -11,28 +11,37 @@ public class Problem10 {
 //
 //    Find the sum of all the primes below two million.
 
-    public static boolean isPrime(BigInteger check) {
-        boolean done = false;
+    static BigInteger sum = BigInteger.ZERO;
 
-        return done;
+    public static void primeSum() {
+        sum = new BigInteger("10");
+
+        int [ ] primes = new int[1500000];
+        int currentIdx = 2;
+        primes[0] = 2;
+        primes[1] = 3;
+        primes[2] = 5;
+        int currentCheck = 7;
+
+        while (currentCheck < 2000000) {
+            boolean primeFlag = true;
+            for (int primeIdx = 1; primeIdx < currentIdx; primeIdx++) {
+                if (currentCheck % primes[primeIdx] == 0) {
+                    primeFlag = false;
+                    break;
+                }
+            }
+            if (primeFlag) {
+                primes[currentIdx + 1] = currentCheck;
+                sum = sum.add(BigInteger.valueOf((long) (currentCheck)));
+                currentIdx++;
+            }
+            currentCheck += 2;
+        }
     }
 
     public static void main(String args[]) {
-        BigInteger check = BigInteger.ONE;
-        BigInteger sum = BigInteger.ZERO;
-        int count = 0;
-
-        for (long dex = 2; dex < 2000000; dex++) {
-            check = BigInteger.valueOf(dex);
-            if (isPrime(check)) {
-                sum = sum.add(check);
-                count++;
-
-                if (count == 10001) {
-                    System.out.println("Problem 7 answer: " +check);
-                }
-            }
-        }
+        primeSum();
 
         System.out.println("The sum of all primes under 2000000 is " +sum);
     }

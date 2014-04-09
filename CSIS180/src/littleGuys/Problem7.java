@@ -11,22 +11,39 @@ public class Problem7 {
 //
 //    What is the 10 001st prime number?
 
-    public static boolean isPrime(BigInteger check) {
-        boolean done = false;
+    public static int findPrime10001() {
 
-        return done;
+        int [ ] primes = new int[1500000];
+        int currentIdx = 2;
+        primes[0] = 2;
+        primes[1] = 3;
+        primes[2] = 5;
+        int currentCheck = 7;
+
+        while (currentIdx <= 10001) {
+            boolean primeFlag = true;
+            for (int primeIdx = 1; primeIdx < currentIdx; primeIdx++) {
+                if (currentCheck % primes[primeIdx] == 0) {
+                    primeFlag = false;
+                    break;
+                }
+            }
+
+            if (primeFlag) {
+                primes[currentIdx + 1] = currentCheck;
+                currentIdx++;
+                if (currentIdx == 10000) {
+                    break;
+                }
+            }
+            currentCheck += 2;
+        }
+
+        return currentCheck;
     }
 
     public static void main(String args[]) {
-        int count = 0;
-        BigInteger check = BigInteger.valueOf(2);
-
-        while (count < 10001) {
-            if (isPrime(check)) {
-                count++;
-            }
-            check = check.add(BigInteger.ONE);
-        }
+        int check = findPrime10001();
 
         System.out.println("The 10001st prime number is " +check);
     }
