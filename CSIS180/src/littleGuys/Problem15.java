@@ -1,7 +1,7 @@
 package littleGuys;
 
 /**
- * Created by apofahl on 3/21/14.
+ * Created by apofahl
  */
 public class Problem15 {
 
@@ -10,5 +10,9 @@ public class Problem15 {
 //
 //    How many such routes are there through a 20×20 grid?
 
+    int [ ] [ ] grid = new int [20][20];
 
+    public static void main(String [] args) {
+
+    }
 }
