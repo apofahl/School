@@ -81,7 +81,11 @@ public class LookAheadRobot extends FacingRobot {
     @Override
     public boolean move(int direction) {
         boolean done = false;
-        maze.setCell(currentRow, currentCol, ' ');
+        if (deadEnd(currentRow, currentCol)) {
+            maze.setCell(currentRow, currentCol, 'D');
+        } else {
+            maze.setCell(currentRow, currentCol, ' ');
+        }
 
         if (direction == 0) {
             currentRow = currentRow - 1;
@@ -149,5 +153,28 @@ public class LookAheadRobot extends FacingRobot {
         maze.setCell(currentRow, currentCol, this.direction.getCard());
 
         return done;
+    }
+
+    private boolean deadEnd(int row, int col) {
+        int count = 0;
+        boolean dead = false;
+
+        if (row == maze.getRows() || !maze.openCell(row + 1, col)) {
+            count++;
+        }
+        if (row == 0 || !maze.openCell(row - 1, col)) {
+            count++;
+        }
+        if (col == maze.getCols() || !maze.openCell(row, col + 1)) {
+            count++;
+        }
+        if (col == 0 || !maze.openCell(row, col - 1)) {
+            count ++;
+        }
+        if (count >= 3) {
+            dead = true;
+        }
+
+        return dead;
     }
 }

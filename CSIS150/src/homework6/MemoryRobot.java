@@ -1,6 +1,5 @@
 package homework6;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -8,10 +7,11 @@ import java.util.Random;
  */
 public class MemoryRobot extends Robot{
 
-    private ArrayList<Point> points;
+    private Point points;
 
     public MemoryRobot(Maze maze) {
         super(maze);
+        points = new Point(maze.getRows(), maze.getCols());
     }
 
     @Override
@@ -27,10 +27,10 @@ public class MemoryRobot extends Robot{
 
         if (direction == 0) {
             if (currentRow > 0 && maze.openCell(currentRow - 1, currentCol)) {
-                if (deadEnd(currentRow, currentCol)) {
+                if (deadEnd(currentRow, currentCol) || beenHere(currentRow, currentCol) > 4) {
                     maze.setCell(currentRow, currentCol, 'D');
                 } else {
-                    points.add(new Point(currentRow, currentCol));
+                    points.addPoint(currentRow, currentCol);
                     maze.setCell(currentRow, currentCol, ' ');
                 }
                 currentRow = currentRow - 1;
@@ -40,10 +40,10 @@ public class MemoryRobot extends Robot{
             }
         } else if (direction == 1) {
             if (currentRow < maze.getRows() && maze.openCell(currentRow + 1, currentCol)) {
-                if (deadEnd(currentRow, currentCol)) {
+                if (deadEnd(currentRow, currentCol) || beenHere(currentRow, currentCol) > 4) {
                     maze.setCell(currentRow, currentCol, 'D');
                 } else {
-                    points.add(new Point(currentRow, currentCol));
+                    points.addPoint(currentRow, currentCol);
                     maze.setCell(currentRow, currentCol, ' ');
                 }
                 currentRow = currentRow + 1;
@@ -53,10 +53,10 @@ public class MemoryRobot extends Robot{
             }
         } else if (direction == 2) {
             if (currentCol > 0 && maze.openCell(currentRow, currentCol - 1)) {
-                if (deadEnd(currentRow, currentCol)) {
+                if (deadEnd(currentRow, currentCol) || beenHere(currentRow, currentCol) > 4) {
                     maze.setCell(currentRow, currentCol, 'D');
                 } else {
-                    points.add(new Point(currentRow, currentCol));
+                    points.addPoint(currentRow, currentCol);
                     maze.setCell(currentRow, currentCol, ' ');
                 }
                 currentCol = currentCol - 1;
@@ -66,10 +66,10 @@ public class MemoryRobot extends Robot{
             }
         } else if (direction == 3) {
             if (currentCol < maze.getCols() && maze.openCell(currentRow, currentCol + 1)) {
-                if (deadEnd(currentRow, currentCol)) {
+                if (deadEnd(currentRow, currentCol) || beenHere(currentRow, currentCol) > 4) {
                     maze.setCell(currentRow, currentCol, 'D');
                 } else {
-                    points.add(new Point(currentRow, currentCol));
+                    points.addPoint(currentRow, currentCol);
                     maze.setCell(currentRow, currentCol, ' ');
                 }
                 currentCol = currentCol + 1;
@@ -82,15 +82,8 @@ public class MemoryRobot extends Robot{
         return done;
     }
 
-    private boolean beenHere(int row, int col) {
-        boolean been = false;
-
-        for (Point point : points) {
-            if (point.getRowPoint() == row && point.getColPoint() == col) {
-                been = true;
-                break;
-            }
-        }
+    private int beenHere(int row, int col) {
+        int been = points.getPoint(row, col);
 
         return been;
     }
@@ -99,16 +92,16 @@ public class MemoryRobot extends Robot{
         int count = 0;
         boolean dead = false;
 
-        if (currentRow < maze.getRows() && maze.openCell(row + 1, col)) {
+        if (row == maze.getRows() || !maze.openCell(row + 1, col)) {
             count++;
         }
-        if (currentRow > 0 && maze.openCell(row - 1, col)) {
+        if (row == 0 || !maze.openCell(row - 1, col)) {
             count++;
         }
-        if (currentCol < maze.getCols() && maze.openCell(row, col + 1)) {
+        if (col == maze.getCols() || !maze.openCell(row, col + 1)) {
             count++;
         }
-        if (currentCol > 0 && maze.openCell(row, col - 1)) {
+        if (col == 0 || !maze.openCell(row, col - 1)) {
             count ++;
         }
         if (count >= 3) {

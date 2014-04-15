@@ -1,6 +1,7 @@
 package homework6;
 
 import javax.swing.*;
+import javax.swing.event.AncestorListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -33,6 +34,7 @@ public class MazeFrame extends JFrame{
     // UI Stuff
     private JPanel messPanel;
     private JLabel message;
+    private JButton showMemory;
 
 
     /**
@@ -43,6 +45,10 @@ public class MazeFrame extends JFrame{
         panel = new MazePanel();
         JMenuBar menuBar = buildMenuBar();
         setJMenuBar(menuBar);
+
+        // Set up buttons
+        showMemory = new JButton("Show Memory");
+        showMemory.addActionListener(new ShowMemory());
 
         // Build Message Panel
         messPanel = setUpMessage();
@@ -244,6 +250,7 @@ public class MazeFrame extends JFrame{
             } else {
                 robot = new MemoryRobot(maze);
                 panel.setRobot(robot);
+                showMemory.setVisible(true);
             }
 
             // Show to user
@@ -363,6 +370,14 @@ public class MazeFrame extends JFrame{
         @Override
         public void keyTyped(KeyEvent e) {
 
+        }
+    }
+
+    public class ShowMemory implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            MemoryFrame memory = new MemoryFrame();
         }
     }
 
