@@ -110,4 +110,8 @@ public class MemoryRobot extends Robot{
 
         return dead;
     }
+
+    public Point getPoints() {
+        return points;
+    }
 }

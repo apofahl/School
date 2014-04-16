@@ -33,4 +33,12 @@ public class Point {
 
         beenHere.get(col).set(row, times);
     }
+
+    public int getCols() {
+        return beenHere.size();
+    }
+
+    public int getRows() {
+        return beenHere.get(0).size();
+    }
 }
