@@ -49,6 +49,8 @@ public class MazeFrame extends JFrame{
         // Set up buttons
         showMemory = new JButton("Show Memory");
         showMemory.addActionListener(new ShowMemory());
+        showMemory.setVisible(false);
+        add(showMemory); // Not showing up
 
         // Build Message Panel
         messPanel = setUpMessage();
@@ -377,7 +379,9 @@ public class MazeFrame extends JFrame{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            MemoryFrame memory = new MemoryFrame();
+            if (robot instanceof MemoryRobot) {
+                MemoryFrame memory = new MemoryFrame((MemoryRobot) (robot));
+            }
         }
     }
 
