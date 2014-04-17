@@ -1,7 +1,5 @@
 package littleGuys;
 
-import java.math.BigInteger;
-
 /**
  * Created by apofahl
  */

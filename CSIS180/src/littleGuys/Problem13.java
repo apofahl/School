@@ -114,8 +114,10 @@ public class Problem13 {
     static BigInteger sum = BigInteger.ZERO;
 
     public static void main(String args []){
-        for(int dex = 0; dex < numbers.length; dex++) {
-//            sum += sum.add(numbers [dex]); // need to find a way to fix..?
+        for(BigInteger number : numbers) {
+            sum = sum.add(number);
         }
+
+        System.out.println("The first ten digits of the sum are " +sum.toString().substring(0,10));
     }
 }
