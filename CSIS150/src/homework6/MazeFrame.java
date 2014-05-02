@@ -50,7 +50,7 @@ public class MazeFrame extends JFrame{
         showMemory = new JButton("Show Memory");
         showMemory.addActionListener(new ShowMemory());
         showMemory.setVisible(false);
-        add(showMemory); // Not showing up
+        panel.add(showMemory); // Not showing up
 
         // Build Message Panel
         messPanel = setUpMessage();

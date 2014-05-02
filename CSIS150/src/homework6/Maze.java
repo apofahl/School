@@ -43,7 +43,7 @@ public class Maze {
 	               endRow = topScan.nextInt();
                    endCol = topScan.nextInt();
 	               // fill maze
-	               for(int rows = 0;rows < maze.length; rows++) {
+	               for(int rows = 0; rows < maze.length; rows++) {
 	                    fileLine = inReader.readLine();
                        topScan = new Scanner(fileLine);
 	                    for(int cols = 0; cols < maze[rows].length; cols++) {   
