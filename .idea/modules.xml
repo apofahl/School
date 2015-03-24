@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CSIS150/CSIS150.iml" filepath="$PROJECT_DIR$/CSIS150/CSIS150.iml" />
       <module fileurl="file://$PROJECT_DIR$/CSIS180/CSIS180.iml" filepath="$PROJECT_DIR$/CSIS180/CSIS180.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MICS/MICS.iml" filepath="$PROJECT_DIR$/MICS/MICS.iml" />
     </modules>
   </component>
 </project>
